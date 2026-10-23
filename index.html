@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Você foi convidado! Toque para abrir o convite e confirmar presença.">
+<meta property="og:title" content="Convite de Aniversário 💙">
+<meta property="og:description" content="Você foi convidado! Toque para abrir o convite e confirmar presença.">
+<meta property="og:type" content="website">
+<!-- Ao publicar, adicione og:url e og:image com o endereço absoluto do site para a prévia no WhatsApp. -->
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Convite de Aniversário</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700&display=swap">
+<style>
+/* Layout: uma tela de celular — arte ajustada à altura, quadro de tamanhos+local, botão de confirmar fixo no rodapé. Visual único e claro, de propósito. */
+:root {
+  color-scheme: light;
+  --xadrez-a: #dcebfb;
+  --xadrez-b: rgba(120, 170, 230, .28);
+  --azul: #5b9be0;
+  --azul-claro: #a9cdf3;
+  --azul-fundo: #eaf3fd;
+  --marinho: #1f3f8f;
+  --laranja: #f39a3d;
+  --papel: #fffdf8;
+  --zap: #1f9d55;
+  --zap-sombra: #157a40;
+  --erro: #b3261e;
+  --f-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --f-texto: "Nunito", "Segoe UI", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  color: var(--marinho); font-family: var(--f-texto); font-size: 16px; line-height: 1.45;
+  background-color: var(--xadrez-a);
+  background-image:
+    linear-gradient(90deg, var(--xadrez-b) 50%, transparent 50%),
+    linear-gradient(var(--xadrez-b) 50%, transparent 50%);
+  background-size: 64px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 14px 24px;
+}
+body.com-barra { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+main { max-width: 460px; margin: 0 auto; }
+button, input, a { font: inherit; }
+:focus-visible { outline: 3px solid var(--laranja); outline-offset: 3px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ---------- envelope ---------- */
+.cena { display: grid; justify-items: center; gap: 20px; padding-top: 140px; }
+.cena[hidden] { display: none !important; }
+.envelope {
+  position: relative; display: block; width: 100%; max-width: 380px; aspect-ratio: 3 / 2;
+  border: 0; padding: 0; border-radius: 12px; cursor: pointer; overflow: visible;
+  background: var(--azul); box-shadow: 0 16px 34px rgba(31, 63, 143, .3); perspective: 900px;
+}
+.envelope > span { position: absolute; display: block; }
+.env-carta {
+  left: 6%; right: 6%; top: 5%; bottom: 8%; z-index: 1; border-radius: 6px;
+  background: var(--papel) center top / cover no-repeat;
+  transition: transform .55s ease .5s;
+}
+.env-frente {
+  inset: 0; z-index: 2; border-radius: 12px; background: var(--azul);
+  clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+}
+.env-para {
+  left: 0; right: 0; bottom: 11%; z-index: 3; text-align: center; padding: 0 12px;
+  font-family: var(--f-display); font-weight: 800; font-size: 1.25rem; line-height: 1.2; color: var(--papel);
+}
+.env-para small { display: block; font-family: var(--f-texto); font-weight: 700; font-size: .85rem; opacity: .9; }
+.env-aba {
+  left: 0; right: 0; top: 0; height: 58%; z-index: 4; border-radius: 12px 12px 0 0;
+  background: var(--azul-claro);
+  clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center;
+  transition: transform .5s ease, z-index 0s linear .25s;
+}
+.selo {
+  left: 50%; top: 58%; z-index: 5; width: 60px; height: 60px; margin: -30px 0 0 -30px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--laranja);
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, .35), 0 3px 8px rgba(0, 0, 0, .25);
+  transition: opacity .2s, transform .2s;
+}
+.envelope.aberto .selo { opacity: 0; transform: scale(.6); }
+.envelope.aberto .env-aba { transform: rotateX(180deg); z-index: 0; }
+.envelope.aberto .env-carta { transform: translateY(-52%); }
+.dica {
+  margin: 0; background: var(--papel); color: var(--marinho); font-weight: 700;
+  padding: 8px 18px; border-radius: 999px; box-shadow: 0 2px 8px rgba(31, 63, 143, .15);
+}
+
+/* ---------- convite aberto ---------- */
+.aberto-area { display: grid; gap: 12px; }
+.aberto-area[hidden] { display: none !important; }
+.arte-btn {
+  position: relative; display: block; margin: 0 auto; padding: 0; border: 0; background: none; cursor: zoom-in;
+  border-radius: 16px; max-width: 100%;
+}
+.arte {
+  display: block; width: auto; height: auto; max-width: 100%; border-radius: 16px;
+  max-height: max(320px, calc(100vh - 310px));
+  max-height: max(320px, calc(100svh - 310px));
+  box-shadow: 0 10px 26px rgba(31, 63, 143, .25); background: var(--papel);
+}
+.ampliar {
+  position: absolute; right: 8px; bottom: 8px; display: flex; align-items: center; gap: 4px;
+  background: rgba(31, 63, 143, .85); color: #fff; font-size: .75rem; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+}
+
+.info {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px;
+  background: var(--papel); border-radius: 16px; padding: 10px; box-shadow: 0 6px 18px rgba(31, 63, 143, .12);
+}
+.bloco { background: var(--azul-fundo); border-radius: 12px; padding: 10px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+.bloco h2 { margin: 0; display: flex; align-items: center; gap: 5px; font-family: var(--f-display); font-weight: 800; font-size: 1.05rem; line-height: 1.1; }
+.bloco h2 svg { color: var(--laranja); flex: none; }
+.pres-sub { margin: 0; font-size: .78rem; line-height: 1.3; }
+.tamanhos { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.tamanhos li { display: grid; line-height: 1.15; }
+.tamanhos .k { font-size: .68rem; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; opacity: .8; }
+.tamanhos b { font-family: var(--f-display); font-weight: 800; font-size: 1.05rem; color: var(--marinho); }
+.endereco { margin: 0; font-size: .85rem; font-weight: 700; line-height: 1.25; overflow-wrap: anywhere; }
+.endereco span { display: block; font-weight: 400; }
+.mapas { display: grid; gap: 6px; }
+.mapas a {
+  display: flex; align-items: center; justify-content: center; text-decoration: none; text-align: center;
+  font-weight: 800; font-size: .82rem; padding: 7px 8px; border-radius: 999px; background: var(--marinho); color: #fff;
+}
+.mapas a.waze { background: #33ccff; color: var(--marinho); }
+.obs { grid-column: 1 / -1; margin: 0; font-size: .85rem; text-align: center; }
+
+/* ---------- barra fixa ---------- */
+.barra {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: rgba(255, 253, 248, .96); box-shadow: 0 -4px 18px rgba(31, 63, 143, .15);
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.barra[hidden] { display: none !important; }
+.btn-zap {
+  display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; max-width: 460px; margin: 0 auto;
+  border: 0; cursor: pointer; text-decoration: none;
+  font: 800 1.2rem/1.2 var(--f-display); color: #fff; background: var(--zap); border-radius: 999px; padding: 14px 20px;
+  box-shadow: 0 4px 0 var(--zap-sombra); transition: transform .12s, box-shadow .12s;
+}
+.btn-zap:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--zap-sombra); }
+
+.seta {
+  position: fixed; left: 50%; z-index: 19; transform: translateX(-50%);
+  bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 6px; border: 0; cursor: pointer; white-space: nowrap;
+  background: var(--marinho); color: #fff; font-weight: 700; font-size: .85rem; padding: 7px 14px; border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(31, 63, 143, .3);
+}
+.seta[hidden] { display: none !important; }
+
+/* ---------- janela de confirmação ---------- */
+.fundo-escuro { position: fixed; inset: 0; z-index: 30; background: rgba(15, 30, 70, .55); }
+.fundo-escuro[hidden], .folha[hidden], .zoom[hidden] { display: none !important; }
+.folha {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 31; max-width: 500px; margin: 0 auto;
+  background: var(--papel); border-radius: 22px 22px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, .2);
+  padding: 10px max(20px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  display: grid; gap: 14px; max-height: 90vh; overflow-y: auto;
+}
+.puxador { width: 44px; height: 5px; border-radius: 3px; background: var(--azul-claro); justify-self: center; }
+.folha-topo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.folha h2 { margin: 0; font-family: var(--f-display); font-weight: 800; font-size: 1.5rem; line-height: 1.1; }
+.fechar {
+  width: 38px; height: 38px; border-radius: 50%; border: 0; background: var(--azul-fundo); color: var(--marinho);
+  font: 800 1.3rem/1 var(--f-display); cursor: pointer; flex: none;
+}
+.campo { display: grid; gap: 6px; }
+.campo label { font-weight: 700; font-size: .9rem; }
+.campo input {
+  width: 100%; min-width: 0; padding: 12px 14px; border-radius: 12px; border: 2px solid var(--azul-claro);
+  background: #fff; color: var(--marinho); font-size: 1rem;
+}
+.campo input[aria-invalid="true"] { border-color: var(--erro); }
+.msg-erro { color: var(--erro); font-size: .85rem; font-weight: 700; }
+.qtd { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; }
+.qtd-ctrl { display: flex; align-items: center; gap: 12px; }
+.qtd button {
+  width: 42px; height: 42px; border-radius: 50%; border: 2px solid var(--azul); background: #fff; color: var(--marinho);
+  font: 800 1.3rem/1 var(--f-display); cursor: pointer;
+}
+.qtd output { min-width: 2ch; text-align: center; font-family: var(--f-display); font-weight: 800; font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+.nota { margin: 0; font-size: .85rem; opacity: .85; text-align: center; }
+.aviso-config { margin: 0; background: #fff4e5; color: #8a4b00; border-radius: 12px; padding: 10px 12px; font-size: .85rem; font-weight: 700; }
+
+/* ---------- ampliar arte ---------- */
+.zoom {
+  position: fixed; inset: 0; z-index: 40; overflow-y: auto; background: rgba(10, 22, 55, .94);
+  padding: calc(12px + env(safe-area-inset-top, 0px)) max(12px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(12px, env(safe-area-inset-left, 0px));
+}
+.zoom .fechar { position: sticky; top: 0; display: block; margin: 0 0 10px auto; background: var(--papel); }
+.zoom img { display: block; width: 100%; max-width: 700px; height: auto; margin: 0 auto; border-radius: 12px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .envelope:not(.aberto) { animation: balanca 3.2s ease-in-out infinite; }
+  @keyframes balanca { 0%, 80%, 100% { transform: rotate(0); } 85% { transform: rotate(-2deg); } 90% { transform: rotate(2deg); } 95% { transform: rotate(-1deg); } }
+  .envelope.aberto { animation: some .3s ease 1.1s forwards; }
+  @keyframes some { to { opacity: 0; transform: translateY(24px); } }
+  .aberto-area.surge > * { animation: surge .6s cubic-bezier(.2, .8, .3, 1.15) both; }
+  .aberto-area.surge > *:nth-child(2) { animation-delay: .12s; }
+  .barra.surge { animation: sobe .4s ease .3s both; }
+  .seta svg { animation: pula 1.2s ease-in-out infinite; }
+  @keyframes pula { 50% { transform: translateY(3px); } }
+  .folha:not([hidden]) { animation: sobe .28s ease-out; }
+  @keyframes surge { from { opacity: 0; transform: translateY(40px) scale(.95); } }
+  @keyframes sobe { from { transform: translateY(100%); } }
+}
+</style>
+</head>
+<body>
+
+<main>
+  <section class="cena" id="cena">
+    <button type="button" class="envelope" id="envelope" aria-label="Abrir o convite">
+      <span class="env-carta"></span>
+      <span class="env-frente"></span>
+      <span class="env-para">Você foi convidado!<small id="envSub"></small></span>
+      <span class="env-aba"></span>
+      <span class="selo" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 32 32"><g fill="#fffdf8"><ellipse cx="16" cy="21" rx="7.5" ry="6.5"/><ellipse cx="7" cy="13" rx="3" ry="3.8"/><ellipse cx="12.5" cy="7.5" rx="3" ry="3.8"/><ellipse cx="19.5" cy="7.5" rx="3" ry="3.8"/><ellipse cx="25" cy="13" rx="3" ry="3.8"/></g></svg>
+      </span>
+    </button>
+    <p class="dica" id="dica">Toque no envelope para abrir</p>
+  </section>
+
+  <section class="aberto-area" id="abertoArea" hidden>
+    <button type="button" class="arte-btn" id="arteBtn" aria-label="Ampliar o convite">
+      <img class="arte" id="arte" width="1024" height="1536" alt="">
+      <span class="ampliar" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 24 24"><path fill="currentColor" d="M10 3a7 7 0 0 1 5.6 11.2l5.6 5.6-1.4 1.4-5.6-5.6A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm-1 2h2v2h2v2h-2v2H9v-2H7V9h2z"/></svg>
+        Toque para ampliar
+      </span>
+    </button>
+
+    <div class="info">
+      <section class="bloco" id="presentes" aria-labelledby="tPresentes">
+        <h2 id="tPresentes">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 7h-2.2A3 3 0 0 0 12 3.8 3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h7V7h2v5h7a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zM9 7a1 1 0 1 1 1-1v1H9zm5 0V6a1 1 0 1 1 1 1h-1zM4 13v7a1 1 0 0 0 1 1h6v-8H4zm9 8h6a1 1 0 0 0 1-1v-7h-7v8z"/></svg>
+          Presentes
+        </h2>
+        <p class="pres-sub" id="presentesSub"></p>
+        <ul class="tamanhos" id="tamanhos"></ul>
+      </section>
+      <section class="bloco" id="local" aria-labelledby="tLocal">
+        <h2 id="tLocal">
+          <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>
+          Local
+        </h2>
+        <p class="endereco"><b id="localNome"></b><span id="localEndereco"></span></p>
+        <div class="mapas">
+          <a id="linkMaps" href="#" target="_blank" rel="noopener">Google Maps</a>
+          <a id="linkWaze" class="waze" href="#" target="_blank" rel="noopener">Waze</a>
+        </div>
+      </section>
+      <p class="obs" id="presentesObs" hidden></p>
+    </div>
+  </section>
+</main>
+
+<button type="button" class="seta" id="seta" hidden>
+  Mais informações abaixo
+  <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 16.5 4.5 9l1.4-1.4L12 13.7l6.1-6.1L19.5 9z"/></svg>
+</button>
+
+<div class="barra" id="barra" hidden>
+  <button type="button" class="btn-zap" id="abrirFolha">
+    <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.2-.2-.4-.3z"/></svg>
+    Confirmar presença
+  </button>
+</div>
+
+<div class="fundo-escuro" id="fundoEscuro" hidden></div>
+<form class="folha" id="folha" role="dialog" aria-modal="true" aria-labelledby="tFolha" novalidate hidden>
+  <span class="puxador" aria-hidden="true"></span>
+  <div class="folha-topo">
+    <h2 id="tFolha">Confirme sua presença</h2>
+    <button type="button" class="fechar" id="fecharFolha" aria-label="Fechar">×</button>
+  </div>
+  <p class="aviso-config" id="avisoConfig" hidden>Modo demonstração: nenhum WhatsApp configurado, então você escolhe o contato ao enviar.</p>
+  <div class="campo">
+    <label for="nome">Seu nome</label>
+    <input id="nome" maxlength="40" autocomplete="name" placeholder="Ex.: Ana e família" aria-describedby="nomeErro">
+    <span class="msg-erro" id="nomeErro" hidden>Digite seu nome para confirmar.</span>
+  </div>
+  <div class="qtd">
+    <span>Quantas pessoas vão?</span>
+    <div class="qtd-ctrl">
+      <button type="button" id="menos" aria-label="Diminuir">−</button>
+      <output id="qtd">1</output>
+      <button type="button" id="mais" aria-label="Aumentar">+</button>
+    </div>
+  </div>
+  <a class="btn-zap" id="confirmar" href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+  <p class="nota" id="nota"></p>
+</form>
+
+<div class="zoom" id="zoom" role="dialog" aria-modal="true" aria-label="Convite ampliado" hidden>
+  <button type="button" class="fechar" id="fecharZoom" aria-label="Fechar">×</button>
+  <img id="arteZoom" width="1024" height="1536" alt="">
+</div>
+
+<script>
+// ====== DADOS DA FESTA: edite aqui ======
+var FESTA = {
+  crianca: "Theo",
+  idade: "1 aninho",
+  data: "15/11",
+  hora: "16h",
+  mae: "Ana",              // nome de quem recebe as confirmações (opcional)
+  whatsapp: "",            // WhatsApp com DDD, ex.: "11987654321". Vazio = modo demonstração
+
+  // Arte do convite (imagem 2:3, ex.: 1024x1536)
+  arte: "convite-exemplo.svg",
+  arteDescricao: "Convite do aniversário de 1 ano do Theo: 15 de novembro, 16h, no Parque Ibirapuera.",
+
+  // Lista de presentes: apague a linha de um item para escondê-lo
+  tamanhos: [
+    { item: "Roupa",  tamanho: "2 a 3 anos" },
+    { item: "Sapato", tamanho: "20 a 22" }
+  ],
+  obsPresentes: "",        // observação opcional, ex.: "Ele adora carrinhos!"
+
+  // Local
+  localNome: "Parque Ibirapuera",
+  endereco: "São Paulo, SP",
+  linkMapa: "",            // link do Google Maps (opcional); se vazio, usa as coordenadas ou o endereço
+  coordenadas: "-23.587416,-46.657634"
+};
+// =========================================
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var qtd = 1;
+
+  function foneWhats(s) {
+    var d = String(s || "").replace(/\D/g, "");
+    if (d.length === 10 || d.length === 11) d = "55" + d;
+    return (d.length === 12 || d.length === 13) ? d : "";
+  }
+  var numero = foneWhats(FESTA.whatsapp);
+
+  $("envSub").textContent = "Aniversário de " + FESTA.crianca;
+  $("avisoConfig").hidden = !!numero;
+
+  // arte
+  document.querySelector(".env-carta").style.backgroundImage = "url(\"" + FESTA.arte + "\")";
+  $("arte").src = $("arteZoom").src = FESTA.arte;
+  $("arte").alt = FESTA.arteDescricao;
+  $("arteZoom").alt = FESTA.arteDescricao + " (ampliado)";
+  $("nota").textContent = "Abre o WhatsApp " + (FESTA.mae ? "da " + FESTA.mae : "da mamãe") +
+    " com a mensagem pronta e o link do local da festa. É só enviar.";
+
+  // presentes
+  var itens = (FESTA.tamanhos || []).filter(function (t) { return t && t.tamanho; });
+  $("presentes").hidden = !itens.length;
+  $("presentesSub").textContent = "Se for levar roupa ou sapato de presente, estes são os tamanhos do " +
+    FESTA.crianca.split(" ")[0] + ":";
+  itens.forEach(function (t) {
+    var li = document.createElement("li"), k = document.createElement("span"), v = document.createElement("b");
+    k.className = "k"; k.textContent = t.item; v.textContent = t.tamanho;
+    li.append(k, v); $("tamanhos").append(li);
+  });
+  if (FESTA.obsPresentes) { $("presentesObs").textContent = FESTA.obsPresentes; $("presentesObs").hidden = false; }
+
+  // local
+  var busca = FESTA.endereco || FESTA.localNome;
+  var linkMapa = FESTA.linkMapa || "https://www.google.com/maps/search/?api=1&query=" +
+    encodeURIComponent(FESTA.coordenadas || busca);
+  $("localNome").textContent = FESTA.localNome || FESTA.endereco;
+  $("localEndereco").textContent = FESTA.localNome ? FESTA.endereco : "";
+  $("linkMaps").href = linkMapa;
+  $("linkWaze").href = FESTA.coordenadas
+    ? "https://waze.com/ul?navigate=yes&ll=" + encodeURIComponent(FESTA.coordenadas)
+    : "https://waze.com/ul?navigate=yes&q=" + encodeURIComponent(busca);
+
+  // mensagem do WhatsApp
+  function atualizar() {
+    $("qtd").textContent = qtd;
+    var nome = $("nome").value.trim();
+    var texto = "Olá" + (FESTA.mae ? ", " + FESTA.mae : "") + "! Aqui é " + (nome || "...") + ".\n" +
+      "Confirmo presença no aniversário de " + FESTA.idade + " do " + FESTA.crianca +
+      ", dia " + FESTA.data + " às " + FESTA.hora + ".\n" +
+      (qtd > 1 ? "Vamos em " + qtd + " pessoas." : "Vou sozinho(a).") + " 🎉💙\n\n" +
+      "📍 Local da festa: " + linkMapa;
+    // sem número configurado, o WhatsApp abre para escolher o contato (modo demonstração)
+    $("confirmar").href = "https://wa.me/" + numero + "?text=" + encodeURIComponent(texto);
+  }
+  $("confirmar").addEventListener("click", function (e) {
+    var vazio = !$("nome").value.trim();
+    $("nome").setAttribute("aria-invalid", vazio ? "true" : "false");
+    $("nomeErro").hidden = !vazio;
+    if (vazio) { e.preventDefault(); $("nome").focus(); }
+  });
+  $("nome").addEventListener("input", function () {
+    if (this.value.trim()) { this.setAttribute("aria-invalid", "false"); $("nomeErro").hidden = true; }
+    atualizar();
+  });
+  $("menos").addEventListener("click", function () { if (qtd > 1) { qtd--; atualizar(); } });
+  $("mais").addEventListener("click", function () { if (qtd < 15) { qtd++; atualizar(); } });
+  $("folha").addEventListener("submit", function (e) { e.preventDefault(); });
+
+  // janela de confirmação
+  function abrirFolha() {
+    $("fundoEscuro").hidden = false; $("folha").hidden = false;
+    setTimeout(function () { $("nome").focus(); }, 300);
+  }
+  function fecharFolha() {
+    $("fundoEscuro").hidden = true; $("folha").hidden = true; $("abrirFolha").focus();
+  }
+  $("abrirFolha").addEventListener("click", abrirFolha);
+  $("fecharFolha").addEventListener("click", fecharFolha);
+  $("fundoEscuro").addEventListener("click", fecharFolha);
+
+  // ampliar arte
+  $("arteBtn").addEventListener("click", function () { $("zoom").hidden = false; $("fecharZoom").focus(); });
+  $("fecharZoom").addEventListener("click", function () { $("zoom").hidden = true; $("arteBtn").focus(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    if (!$("zoom").hidden) $("zoom").hidden = true;
+    else if (!$("folha").hidden) fecharFolha();
+  });
+
+  // envelope
+  $("envelope").addEventListener("click", function () {
+    var env = this;
+    if (env.classList.contains("aberto")) return;
+    env.classList.add("aberto");
+    $("dica").hidden = true;
+    var reduz = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setTimeout(function () {
+      $("cena").hidden = true;
+      $("abertoArea").hidden = false;
+      $("abertoArea").classList.add("surge");
+      $("barra").hidden = false;
+      $("barra").classList.add("surge");
+      document.body.classList.add("com-barra");
+      window.scrollTo(0, 0);
+      setTimeout(checarSeta, 700);
+    }, reduz ? 0 : 1400);
+  });
+
+  // seta "mais informações abaixo": só quando o conteúdo não cabe na tela
+  var rolou = false;
+  function checarSeta() {
+    if ($("abertoArea").hidden) return;
+    var sobra = document.documentElement.scrollHeight - window.innerHeight;
+    $("seta").hidden = rolou || sobra < 30 || window.scrollY > 30;
+  }
+  window.addEventListener("scroll", function () { if (window.scrollY > 30) { rolou = true; $("seta").hidden = true; } }, { passive: true });
+  window.addEventListener("resize", checarSeta);
+  $("seta").addEventListener("click", function () {
+    $("seta").hidden = true;
+    document.querySelector(".info").scrollIntoView({ behavior: "smooth", block: "end" });
+  });
+
+  atualizar();
+})();
+</script>
+</body>
+</html>

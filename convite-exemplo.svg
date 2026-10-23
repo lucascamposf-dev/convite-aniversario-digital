@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1536" viewBox="0 0 1024 1536">
+  <defs>
+    <pattern id="xadrez" width="128" height="128" patternUnits="userSpaceOnUse">
+      <rect width="128" height="128" fill="#dcebfb"/>
+      <rect width="64" height="128" fill="#78aae6" fill-opacity=".28"/>
+      <rect width="128" height="64" fill="#78aae6" fill-opacity=".28"/>
+    </pattern>
+    <radialGradient id="brilho" cx=".35" cy=".3" r=".7">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".4" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <g id="balao">
+      <path d="M0 95 q-10 60 8 140" stroke="#5b7fb8" stroke-width="3" fill="none"/>
+      <ellipse cx="0" cy="0" rx="78" ry="96"/>
+      <path d="M-10 92 h20 l-10 14z"/>
+      <ellipse cx="0" cy="0" rx="78" ry="96" fill="url(#brilho)"/>
+    </g>
+    <g id="pata">
+      <ellipse cx="0" cy="12" rx="17" ry="14"/>
+      <ellipse cx="-20" cy="-8" rx="7" ry="9"/>
+      <ellipse cx="-7" cy="-20" rx="7" ry="9"/>
+      <ellipse cx="7" cy="-20" rx="7" ry="9"/>
+      <ellipse cx="20" cy="-8" rx="7" ry="9"/>
+    </g>
+  </defs>
+
+  <rect width="1024" height="1536" fill="url(#xadrez)"/>
+
+  <!-- cartão -->
+  <rect x="70" y="120" width="884" height="1340" rx="60" fill="#fffdf8"/>
+  <rect x="96" y="146" width="832" height="1288" rx="44" fill="none" stroke="#a9cdf3" stroke-width="5" stroke-dasharray="16 12"/>
+
+  <!-- faixa com o nome -->
+  <path d="M40 300 L150 270 L150 420 L40 450 L90 375 Z" fill="#a9cdf3"/>
+  <path d="M984 300 L874 270 L874 420 L984 450 L934 375 Z" fill="#a9cdf3"/>
+  <path d="M130 220 Q512 150 894 220 L894 400 Q512 330 130 400 Z" fill="#5b9be0"/>
+  <text x="512" y="335" text-anchor="middle" font-family="'Arial Rounded MT Bold','Trebuchet MS',Arial,sans-serif" font-weight="800" font-size="132" fill="#fffdf8" stroke="#1f3f8f" stroke-width="6" paint-order="stroke" letter-spacing="6">THEO</text>
+
+  <text x="512" y="520" text-anchor="middle" font-family="'Trebuchet MS',Arial,sans-serif" font-weight="700" font-size="104" fill="#1f3f8f">1 ano</text>
+  <use href="#pata" x="512" y="590" fill="#5b9be0"/>
+
+  <g font-family="'Trebuchet MS',Arial,sans-serif" font-size="40" fill="#1f3f8f" text-anchor="middle">
+    <text x="512" y="700">Vai ser uma festa muito especial,</text>
+    <text x="512" y="752">e eu adoraria ter você comigo</text>
+    <text x="512" y="804">para comemorar o meu 1 aninho!</text>
+  </g>
+
+  <!-- data / horário / local -->
+  <g font-family="'Trebuchet MS',Arial,sans-serif" text-anchor="middle" fill="#1f3f8f">
+    <text x="262" y="930" font-size="34" font-weight="700" fill="#5b9be0" letter-spacing="3">DATA</text>
+    <text x="262" y="1010" font-size="80" font-weight="800">15</text>
+    <text x="262" y="1058" font-size="34" font-weight="700">NOVEMBRO</text>
+
+    <text x="512" y="930" font-size="34" font-weight="700" fill="#5b9be0" letter-spacing="3">HORÁRIO</text>
+    <text x="512" y="1010" font-size="80" font-weight="800">16h</text>
+
+    <text x="762" y="930" font-size="34" font-weight="700" fill="#5b9be0" letter-spacing="3">LOCAL</text>
+    <text x="762" y="995" font-size="44" font-weight="800">PARQUE</text>
+    <text x="762" y="1045" font-size="44" font-weight="800">IBIRAPUERA</text>
+  </g>
+  <path d="M387 900 V1070 M637 900 V1070" stroke="#a9cdf3" stroke-width="4" stroke-linecap="round"/>
+
+  <text x="600" y="1230" text-anchor="middle" font-family="'Trebuchet MS',Arial,sans-serif" font-style="italic" font-size="50" fill="#1f3f8f">Conto com a sua presença!</text>
+  <use href="#pata" x="600" y="1310" fill="#f39a3d"/>
+
+  <!-- balões -->
+  <use href="#balao" x="125" y="1185" fill="#5b9be0"/>
+  <use href="#balao" x="225" y="1260" fill="#f39a3d"/>
+  <use href="#balao" x="105" y="1345" fill="#a9cdf3"/>
+
+  <!-- sol -->
+  <g transform="translate(870 560)" stroke="#ffc93c" stroke-width="8" stroke-linecap="round">
+    <circle r="34" fill="#ffc93c" stroke="none"/>
+    <path d="M0 -60 V-48 M0 48 V60 M-60 0 H-48 M48 0 H60 M-42 -42 l9 9 M33 33 l9 9 M-42 42 l9 -9 M33 -33 l9 -9"/>
+  </g>
+</svg>
